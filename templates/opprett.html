@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Opprett bruker</h1>
+    <form action="opprett" method="post">
+        <input type="text" name="brukernavn" id="brukernavn" placeholder="Brukernavn:">
+        <input type="password" name="passord" id="passord" placeholder="Passord:">
+        <input type="text" name="rolle" id="rolle" placeholder="Rolle:">
+        <input type="text" name="profilBilde" id="profilBilde" placeholder="Profilbilde:">
+        <button type="submit">Opprett</button>
+    </form>
+    <p>{{ feil }}</p>
+    <form action="navLogin" method="post">
+        <button type="submit">Log inn</button>
+    </form>
+</body>
+</html>
