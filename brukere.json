@@ -3,6 +3,17 @@
         "passord": "Abcd1234!",
         "rolle": "Elev",
         "profilbilde": "https://static.vecteezy.com/system/resources/thumbnails/027/215/745/small_2x/happy-young-student-posing-outdoors-near-college-building-with-backpack-and-books-enjoying-educational-programs-and-studentship-copy-space-available-free-photo.jpg",
+        "saker": {
+            "Priner kobles ikke til internet": {
+                "klasse": "Studie VG2",
+                "prioritet": "2"
+            }
+        }
+    },
+    "admin": {
+        "passord": "Abcd1234!",
+        "rolle": "admin",
+        "profilBilde": "",
         "saker": {}
     }
 }

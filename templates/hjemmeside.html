@@ -16,10 +16,12 @@
 
     <h3>Problem?</h3>
     <form action="publiserSak" method="post">
+        <input name="navn" placeholder="Navn" title="{{ brukernavn }}">
         <input name="problem" placeholder="problem">
         <input name="klasse" placeholder="Klasse">
         <input type="number", max="5", min="0" name="prioritet" placeholder="Prioritet">
         <button type="submit">Publiser</button>
     </form>
+    <p>{{ saker }}</p>
 </body>
 </html>

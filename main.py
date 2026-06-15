@@ -4,6 +4,7 @@ import json
 app = Flask(__name__)
 
 brukere = None
+saker = None
 
 def lasteBrukere():
     global brukere
@@ -22,11 +23,30 @@ def lagBruker(brukernavn:str, passord:str, rolle:str, profilBilde:str):
     brukere[brukernavn] = {
         "passord": passord,
         "rolle": rolle,
-        "profilBilde": profilBilde
+        "profilBilde": profilBilde,
+        "saker": {}
     }
 
     with open("brukere.json", "w") as file:
         json.dump(brukere, file, indent=4)
+
+def lagSak(problem, klasse, prioritet):
+    global saker
+    with open("saker.json", "r") as file:
+        data = json.load(file)
+    saker = data
+    
+    sak = {
+        "klasse": klasse,
+        "prioritet": prioritet
+    }
+
+    saker[problem] = sak
+
+    with open("saker.json", "w") as file:
+        json.dump(saker, file, indent=4)
+
+    return sak
 
 
 @app.route("/")
@@ -47,7 +67,10 @@ def login():
         #profilBilde = bruker["profilBilde"]
         if bruker:
             if bruker["passord"] == passord:
-                return render_template("hjemmeside.html", brukernavn=brukernavn)#, rolle=rolle, profilBilde=profilBilde)
+                if bruker["rolle"] == "admin":
+                    return render_template("hjemmeside.html", brukernavn=brukernavn, saker=saker)#, rolle=rolle, profilBilde=profilBilde)
+                else:
+                    return render_template("hjemmeside.html", brukernavn=brukernavn)#, rolle=rolle, profilBilde=profilBilde)
             else:
                 return render_template("login.html", feil="Feil kode")
         else:
@@ -70,7 +93,22 @@ def opprett():
         lagBruker(brukernavn, passord, rolle, profilBilde)
         return render_template("hjemmeside.html", brukernavn=brukernavn, rolle=rolle, profilBilde=profilBilde)
 
+@app.route("/publiserSak", methods=["GET", "POST"])
+def publiserSak():
+    bruker = request.form.get("navn")
+    problem = request.form.get("problem")
+    klasse = request.form.get("klasse")
+    prioritet = request.form.get("prioritet")
 
+    sak = lagSak(problem, klasse, prioritet)
+    brukersaker = brukere[bruker]["saker"]
+    brukersaker[problem] = sak
+    with open("brukere.json", "w") as file:
+        json.dump(brukere, file, indent=4)
+    if brukere[bruker]["rolle"] == "admin":
+        return render_template("hjemmeside.html", brukernavn=bruker, saker=saker)
+    else:
+        return render_template("hjemmeside.html", brukernavn=bruker, saker=brukersaker)
 
 
 @app.route("/navOpprett", methods=["GET","POST"])
